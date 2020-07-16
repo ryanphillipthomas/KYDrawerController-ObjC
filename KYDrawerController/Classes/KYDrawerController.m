@@ -99,6 +99,7 @@ static NSTimeInterval const kDrawerAnimationDuration = 0.25;
         addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[_containerView]-0-|" options:kNilOptions metrics:nil views:viewDictionary]];
 
     self.containerView.hidden = YES;
+    [self.view insertSubview:self.containerView atIndex:0];
     
     if (self.mainSegueIdentifier) {
         [self performSegueWithIdentifier:self.mainSegueIdentifier sender:self];
@@ -141,6 +142,7 @@ static NSTimeInterval const kDrawerAnimationDuration = 0.25;
 - (void)setDrawerState:(KYDrawerControllerDrawerState)drawerState animated:(BOOL)animated
 {
     self.containerView.hidden = NO;
+    [self.view bringSubviewToFront:self.containerView];
 
     NSTimeInterval duration = animated ? self.drawerAnimationDuration : 0;
     
@@ -175,6 +177,7 @@ static NSTimeInterval const kDrawerAnimationDuration = 0.25;
         completion:^(BOOL finished) {
           if (drawerState == KYDrawerControllerDrawerStateClosed) {
               self.containerView.hidden = YES;
+              [self.view insertSubview:self.containerView atIndex:0];
           }
           [self.drawerViewController endAppearanceTransition];
           [self.mainViewController endAppearanceTransition];
@@ -195,6 +198,7 @@ static NSTimeInterval const kDrawerAnimationDuration = 0.25;
 - (IBAction)handlePanGesture:(id)sender
 {
     self.containerView.hidden = NO;
+    [self.view bringSubviewToFront:self.containerView];
 
     if (![sender isKindOfClass:[UIGestureRecognizer class]]) {
         return;
